@@ -1,0 +1,10 @@
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\bin\Debug\nsAccountTools.exe.config
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\bin\Debug\nsAccountTools.exe
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\bin\Debug\nsAccountTools.pdb
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.csprojAssemblyReference.cache
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.frmInicial.resources
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Properties.Resources.resources
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.csproj.GenerateResource.cache
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.csproj.CoreCompileInputs.cache
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.exe
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.pdb
