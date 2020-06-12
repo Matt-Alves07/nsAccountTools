@@ -1,0 +1,31 @@
+DROP VIEW IF EXISTS contabilizacao.vw_dadosusuarios_empresas;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_dadosusuarios_empresas AS
+SELECT
+	dd.dadousuario AS id,
+	COALESCE(e.nome, dl.descricao) AS descricao_lancamento_rubrica,
+	opp.descricao AS abertura,
+	COALESCE(ops.descricao, 'CONTA FIXA') AS abertura_secundaria,
+	dd.contadebito,
+	dd.contacredito,
+	ge.codigo AS grupo,
+	emp.codigo AS empresa,
+	o.descricao AS fato,
+	dc.descricao AS capitulo
+FROM		contabilizacao.dadosusuarios AS dd
+JOIN		ns.empresas AS emp ON dd.empresa = emp.empresa
+JOIN		ns.gruposempresariais AS ge ON emp.grupoempresarial = ge.grupoempresarial
+JOIN		contabilizacao.opcoes AS opp ON dd.opcao = opp.opcao
+LEFT JOIN	contabilizacao.opcoes AS ops ON dd.opcaosecundaria = ops.opcao
+LEFT JOIN	contabilizacao.lancamentosfatos AS lf ON lf.lancamentofato = dd.lancamentofato
+LEFT JOIN	contabilizacao.dicionariolancamentos AS dl ON lf.dicionariolancamento = dl.dicionariolancamento
+LEFT JOIN	contabilizacao.contabilizacaorubricas AS cr ON dd.contabilizacaorubrica = cr.contabilizacaorubrica
+LEFT JOIN	persona.eventos AS e ON cr.rubrica = e.evento
+LEFT JOIN	contabilizacao.dicionariocapitulos AS dc ON
+	CASE WHEN dd.contabilizacaorubrica IS NOT NULL THEN
+		cr.dicionariocapitulo = dc.dicionariocapitulo
+	ELSE
+		dl.dicionariocapitulo = dc.dicionariocapitulo
+	END
+LEFT JOIN	contabilizacao.objetodicionariocapitulos AS odc ON odc.dicionariocapitulo = dc.dicionariocapitulo
+LEFT JOIN	contabilizacao.objetos AS o ON o.objeto = odc.objeto;

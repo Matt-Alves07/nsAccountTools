@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using nsAccountTools.Utils;
 
@@ -27,5 +20,16 @@ namespace nsAccountTools
             }
         }
 
+        private void frmInicial_Shown(object sender, EventArgs e)
+        {
+            txtHost.Focus();
+            rdbCriar.Checked = true;
+            rdbNaoManter.Checked = true;
+        }
+
+        private void BtnConectar_Click(object sender, EventArgs e)
+        {
+            messages.SendWarning("Essa funcionalidade não está implementada.\nTenha paciência, jovem Padawan.", "Ainda por vir...");
+        }
     }
 }

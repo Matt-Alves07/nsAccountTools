@@ -13,5 +13,9 @@ namespace nsAccountTools.Utils
         {
             return MessageBox.Show(_text, _caption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
         }
+
+        public void SendError(string _text, string _caption) => MessageBox.Show(_text, _caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        public void SendWarning(string _text, string _caption) => MessageBox.Show(_text, _caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
     }
 }

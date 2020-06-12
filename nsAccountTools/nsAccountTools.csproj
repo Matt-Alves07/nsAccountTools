@@ -49,7 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\DestroyEnviroment.cs" />
     <Compile Include="Utils\Messages.cs" />
+    <Compile Include="Utils\StartEnviroment.cs" />
     <Compile Include="Views\frmInicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,10 +88,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\exit.png" />
+    <None Include="Resources\server.png" />
+    <Content Include="Scripts\CreateScript.txt" />
+    <Content Include="Scripts\DropScript.txt" />
     <Content Include="working_j7T_icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
