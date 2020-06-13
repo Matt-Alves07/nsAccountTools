@@ -45,7 +45,7 @@ namespace nsAccountTools.Views
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnHome_Click(object sender, EventArgs e)
         {
             if (Messages.SendQuestion("Deseja realmente voltar a tela inicial?", "Voltar") == DialogResult.Yes)
             {

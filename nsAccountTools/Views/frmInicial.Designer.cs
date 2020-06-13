@@ -286,9 +286,9 @@
             this.btnSair.FlatAppearance.BorderSize = 0;
             this.btnSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSair.Image = global::nsAccountTools.Properties.Resources.exit;
-            this.btnSair.Location = new System.Drawing.Point(522, 0);
+            this.btnSair.Location = new System.Drawing.Point(507, 0);
             this.btnSair.Name = "btnSair";
-            this.btnSair.Size = new System.Drawing.Size(85, 50);
+            this.btnSair.Size = new System.Drawing.Size(100, 50);
             this.btnSair.TabIndex = 0;
             this.btnSair.TabStop = false;
             this.btnSair.Text = "  &Sair";

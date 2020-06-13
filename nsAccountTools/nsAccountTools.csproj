@@ -130,6 +130,9 @@
     <None Include="Resources\exit.png" />
     <None Include="Resources\server.png" />
     <None Include="Resources\home.png" />
+    <None Include="Resources\list.png" />
+    <None Include="Resources\progress.png" />
+    <None Include="Resources\search.png" />
     <Content Include="Scripts\CreateScript.txt" />
     <Content Include="Scripts\DropScript.txt" />
     <Content Include="working_j7T_icon.ico" />
