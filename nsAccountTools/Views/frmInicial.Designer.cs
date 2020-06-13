@@ -272,7 +272,7 @@
             this.BtnConectar.Size = new System.Drawing.Size(607, 55);
             this.BtnConectar.TabIndex = 5;
             this.BtnConectar.TabStop = false;
-            this.BtnConectar.Text = "Conectar";
+            this.BtnConectar.Text = "  &Conectar";
             this.BtnConectar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.BtnConectar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnConectar.UseVisualStyleBackColor = true;
