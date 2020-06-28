@@ -35,7 +35,7 @@ namespace nsAccountTools.Views
 
         private void btnSair_Click(object sender, EventArgs e)
         {
-            if (Messages.SendQuestion("Deseja realmente sair?", "Sair") == DialogResult.Yes)
+            if (Messages.SendQuestionWithCancel("Deseja realmente sair?", "Sair") == DialogResult.Yes)
             {
                 if (!keep)
                 {
@@ -47,7 +47,7 @@ namespace nsAccountTools.Views
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            if (Messages.SendQuestion("Deseja realmente voltar a tela inicial?", "Voltar") == DialogResult.Yes)
+            if (Messages.SendQuestionWithCancel("Deseja realmente voltar a tela inicial?", "Voltar") == DialogResult.Yes)
             {
                 if (!keep)
                 {
@@ -55,6 +55,22 @@ namespace nsAccountTools.Views
                 }
                 Application.Restart();
             }
+        }
+
+        private void btnDePara_Click(object sender, EventArgs e)
+        {
+            frmListaDePara form = new frmListaDePara(connString);
+            form.ShowDialog();
+        }
+
+        private void btnFolha_Click(object sender, EventArgs e)
+        {
+            Messages.SendInfo("Mantenha a calma, jovem Padawan.\nIsso ainda está por vir...", "Aguarde...");
+        }
+
+        private void btnListas_Click(object sender, EventArgs e)
+        {
+            Messages.SendInfo("Mantenha a calma, jovem Padawan.\nIsso ainda está por vir...", "Aguarde...");
         }
     }
 }

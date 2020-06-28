@@ -9,10 +9,9 @@ namespace nsAccountTools.Utils
 {
     class Messages
     {
-        public static DialogResult SendQuestion(string _text, string _caption)
-        {
-            return MessageBox.Show(_text, _caption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
-        }
+        public static DialogResult SendQuestion(string _text, string _caption) => MessageBox.Show(_text, _caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+        public static DialogResult SendQuestionWithCancel(string _text, string _caption) => MessageBox.Show(_text, _caption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
 
         public static void SendError(string _text, string _caption) => MessageBox.Show(_text, _caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
 

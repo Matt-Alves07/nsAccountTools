@@ -8,13 +8,12 @@ SELECT
 	COALESCE(ops.descricao, 'CONTA FIXA') AS abertura_secundaria,
 	dd.contadebito,
 	dd.contacredito,
-	ge.codigo AS grupo,
-	emp.codigo AS empresa,
-	o.descricao AS fato,
-	dc.descricao AS capitulo
+	dd.empresa AS empresa,
+	o.objeto AS fato,
+	o.descricao AS descricao_fato,
+	dc.dicionariocapitulo AS capitulo,
+	dc.descricao AS descrica_capitulo
 FROM		contabilizacao.dadosusuarios AS dd
-JOIN		ns.empresas AS emp ON dd.empresa = emp.empresa
-JOIN		ns.gruposempresariais AS ge ON emp.grupoempresarial = ge.grupoempresarial
 JOIN		contabilizacao.opcoes AS opp ON dd.opcao = opp.opcao
 LEFT JOIN	contabilizacao.opcoes AS ops ON dd.opcaosecundaria = ops.opcao
 LEFT JOIN	contabilizacao.lancamentosfatos AS lf ON lf.lancamentofato = dd.lancamentofato
@@ -29,3 +28,15 @@ LEFT JOIN	contabilizacao.dicionariocapitulos AS dc ON
 	END
 LEFT JOIN	contabilizacao.objetodicionariocapitulos AS odc ON odc.dicionariocapitulo = dc.dicionariocapitulo
 LEFT JOIN	contabilizacao.objetos AS o ON o.objeto = odc.objeto;
+
+DROP VIEW IF EXISTS contabilizacao.vw_objetoscapitulos_descricao;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_objetoscapitulos_descricao AS
+SELECT
+	o.objeto AS fato,
+	dc.dicionariocapitulo AS capitulo,
+	dc.descricao AS descricao
+FROM		contabilizacao.objetos AS o
+JOIN		contabilizacao.objetodicionariocapitulos AS odc ON o.objeto = odc.objeto
+JOIN		contabilizacao.dicionariocapitulos AS dc ON odc.dicionariocapitulo = dc.dicionariocapitulo
+ORDER BY	o.descricao, dc.descricao;

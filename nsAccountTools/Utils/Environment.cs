@@ -19,7 +19,7 @@ namespace nsAccountTools.Utils
             {
                 connection.Open();
 
-                command.ExecuteNonQueryAsync();
+                command.ExecuteNonQuery();
             }
             catch (NpgsqlException e)
             {

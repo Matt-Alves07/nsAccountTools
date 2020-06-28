@@ -31,3 +31,5 @@ C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\bin\Debug\System.Thr
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\bin\Debug\System.ValueTuple.xml
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.csproj.CopyComplete
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmMenuPrincipal.resources
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmListaDePara.resources
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmScriptGenerator.resources
