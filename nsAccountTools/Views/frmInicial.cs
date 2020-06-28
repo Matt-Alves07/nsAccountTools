@@ -24,14 +24,11 @@ namespace nsAccountTools
         private void frmInicial_Shown(object sender, EventArgs e)
         {
             txtHost.Focus();
-            rdbCriar.Checked = true;
-            rdbNaoManter.Checked = true;
         }
 
         public bool IsValid()
         {
             string caption = "Campo vazio";
-            string rdbcaption = "Campo não selecionado";
             if (txtHost.Text == "")
             {
                 Messages.SendError("O campo de endereço do servidor não pode ficar vazio.", caption);
@@ -57,16 +54,6 @@ namespace nsAccountTools
                 Messages.SendError("O campo do nome do banco de dados não pode ficar vazio.", caption);
                 return false;
 
-            } else if ((!rdbCriar.Checked) && (!rdbNaoCriar.Checked))
-            {
-                Messages.SendError("É necessário escolher, pelo menos, uma das opções de criação do ambiente.", rdbcaption);
-                return false;
-
-            } else if ((!rdbManter.Checked) && (!rdbNaoManter.Checked))
-            {
-                Messages.SendError("É necessário escolher, pelo menos, uma das opções de manter funcionalidades.", rdbcaption);
-                return false;
-
             } else
             {
                 return true;
@@ -80,6 +67,8 @@ namespace nsAccountTools
 
             if (IsValid())
             {
+                Error error = new Error();
+
                 string connString = string.Format(
                     "Server={0};Port={1};User Id={2};Password={3};Database={4}",
                     txtHost.Text, txtPort.Text, txtUser.Text, txtPass.Text, txtDatabase.Text
@@ -87,37 +76,37 @@ namespace nsAccountTools
 
                 pgbCreate.Increment(25);
 
-                if (rdbCriar.Checked)
+                if (File.Exists(fileAdress))
                 {
-                    pgbCreate.Visible = true;
-                    if (File.Exists(fileAdress))
+                    Cursor.Current = Cursors.WaitCursor;
+
+                    pgbCreate.Increment(50);
+
+                    script = File.ReadAllText(fileAdress);
+                    script = script.Replace("\r", " ");
+                    script = script.Replace("\n", " ");
+                    script = script.Replace("\t", " ");
+
+                    pgbCreate.Increment(75);
+
+                    error = Utils.Environment.ChangeEnviroment(connString, script);
+
+                    Cursor.Current = Cursors.Default;
+
+                    if (error.retorno == Error.tipoRetorno.sucesso)
                     {
-                        pgbCreate.Increment(50);
-
-                        script = File.ReadAllText(fileAdress);
-                        script = script.Replace("\r", " ");
-                        script = script.Replace("\n", " ");
-                        script = script.Replace("\t", " ");
-                        pgbCreate.Increment(75);
-
-                        Cursor.Current = Cursors.WaitCursor;
-
-                        Utils.Environment.ChangeEnviroment(connString, script);
-
-                        Cursor.Current = Cursors.Default;
                         pgbCreate.Increment(100);
+                        pgbCreate.Visible = false;
 
+                        frmMenuPrincipal frm = new frmMenuPrincipal(connString);
+                        this.Hide();
+                        frm.Show();
                     } else
                     {
-                        Messages.SendError("Arquivo não encontrado no diretório padrão.\nEntre em contato com o administrador.", "Arquivo não encontrado");
+                        pgbCreate.Increment(0);
+                        pgbCreate.Visible = false;
                     }
                 }
-
-                pgbCreate.Visible = false;
-
-                frmMenuPrincipal frm = new frmMenuPrincipal(connString, rdbManter.Checked);
-                this.Hide();
-                frm.Show();
             }
         }
     }

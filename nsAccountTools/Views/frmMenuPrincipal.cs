@@ -7,12 +7,10 @@ namespace nsAccountTools.Views
 {
     public partial class frmMenuPrincipal : Form
     {
-        bool keep = false;
         string connString = "";
-        public frmMenuPrincipal(string _connString, bool _keepScripts)
+        public frmMenuPrincipal(string _connString)
         {
             InitializeComponent();
-            keep = _keepScripts;
             connString = _connString;
         }
 
@@ -37,10 +35,7 @@ namespace nsAccountTools.Views
         {
             if (Messages.SendQuestionWithCancel("Deseja realmente sair?", "Sair") == DialogResult.Yes)
             {
-                if (!keep)
-                {
-                    DestroyEnvironment();
-                }
+                DestroyEnvironment();
                 Application.Exit();
             }
         }
@@ -49,10 +44,7 @@ namespace nsAccountTools.Views
         {
             if (Messages.SendQuestionWithCancel("Deseja realmente voltar a tela inicial?", "Voltar") == DialogResult.Yes)
             {
-                if (!keep)
-                {
-                    DestroyEnvironment();
-                }
+                DestroyEnvironment();
                 Application.Restart();
             }
         }

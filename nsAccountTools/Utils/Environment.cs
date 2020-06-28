@@ -6,8 +6,11 @@ namespace nsAccountTools.Utils
 {
     class Environment
     {
-        public static void ChangeEnviroment(string _connString, string _script)
+        public static Error ChangeEnviroment(string _connString, string _script)
         {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
             NpgsqlConnection connection = new NpgsqlConnection();
             NpgsqlCommand command = new NpgsqlCommand();
 
@@ -21,32 +24,25 @@ namespace nsAccountTools.Utils
 
                 command.ExecuteNonQuery();
             }
-            catch (NpgsqlException e)
+            catch (NpgsqlException ex)
             {
-                MessageBox.Show(
-                    "Ocorreu um erro ao executar os scripts necessários. Detalhes: " + e.Message.ToString(),
-                    "Erro ao alterar o banco",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-                connection.Close();
-                return;
+                Messages.SendError($"Ocorreu um erro ao executar os scripts necessários.\nDetalhes(Cód. {ex.ErrorCode.ToString()}): {ex.Message}.", "Erro");
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message.ToString());
+                return error;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Ocorreu um erro. Detalhes: " + e.Message.ToString(),
-                    "Erro ao alterar o banco",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-                connection.Close();
-                return;
+                Messages.SendError($"Ocorreu um erro.\nDetalhes: {ex.Message}", "Erro");
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message.ToString());
+                return error;
             }
             finally
             {
                 connection.Close();
             }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
         }
     }
 }
