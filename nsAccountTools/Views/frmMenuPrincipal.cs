@@ -57,7 +57,8 @@ namespace nsAccountTools.Views
 
         private void btnFolha_Click(object sender, EventArgs e)
         {
-            Messages.SendInfo("Mantenha a calma, jovem Padawan.\nIsso ainda está por vir...", "Aguarde...");
+            frmOpcoesFolha form = new frmOpcoesFolha(connString);
+            form.ShowDialog();
         }
 
         private void btnListas_Click(object sender, EventArgs e)

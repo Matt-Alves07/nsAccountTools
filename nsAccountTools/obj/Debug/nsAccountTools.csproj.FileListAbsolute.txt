@@ -33,3 +33,4 @@ C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountT
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmMenuPrincipal.resources
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmListaDePara.resources
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmScriptGenerator.resources
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmOpcoesFolha.resources

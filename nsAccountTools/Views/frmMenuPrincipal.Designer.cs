@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMenuPrincipal));
             this.pnlMenu = new System.Windows.Forms.Panel();
-            this.btnHome = new System.Windows.Forms.Button();
             this.btnSair = new System.Windows.Forms.Button();
             this.btnListas = new System.Windows.Forms.Button();
             this.btnFolha = new System.Windows.Forms.Button();
             this.btnDePara = new System.Windows.Forms.Button();
+            this.btnHome = new System.Windows.Forms.Button();
             this.pnlMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,25 +48,6 @@
             this.pnlMenu.Name = "pnlMenu";
             this.pnlMenu.Size = new System.Drawing.Size(1062, 50);
             this.pnlMenu.TabIndex = 1;
-            // 
-            // btnHome
-            // 
-            this.btnHome.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnHome.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnHome.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnHome.FlatAppearance.BorderSize = 0;
-            this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHome.Image = global::nsAccountTools.Properties.Resources.home;
-            this.btnHome.Location = new System.Drawing.Point(0, 0);
-            this.btnHome.Name = "btnHome";
-            this.btnHome.Size = new System.Drawing.Size(120, 50);
-            this.btnHome.TabIndex = 1;
-            this.btnHome.TabStop = false;
-            this.btnHome.Text = "  &Início";
-            this.btnHome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnHome.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnHome.UseVisualStyleBackColor = true;
-            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // btnSair
             // 
@@ -109,13 +90,13 @@
             this.btnFolha.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFolha.FlatAppearance.BorderSize = 0;
             this.btnFolha.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFolha.Image = global::nsAccountTools.Properties.Resources.progress;
+            this.btnFolha.Image = global::nsAccountTools.Properties.Resources.team;
             this.btnFolha.Location = new System.Drawing.Point(418, 210);
             this.btnFolha.Name = "btnFolha";
             this.btnFolha.Size = new System.Drawing.Size(230, 200);
             this.btnFolha.TabIndex = 3;
             this.btnFolha.TabStop = false;
-            this.btnFolha.Text = "Contabilização parcial da Folha";
+            this.btnFolha.Text = "Funções de Folha de Pagamento";
             this.btnFolha.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnFolha.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnFolha.UseVisualStyleBackColor = true;
@@ -137,6 +118,25 @@
             this.btnDePara.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnDePara.UseVisualStyleBackColor = true;
             this.btnDePara.Click += new System.EventHandler(this.btnDePara_Click);
+            // 
+            // btnHome
+            // 
+            this.btnHome.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHome.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnHome.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnHome.FlatAppearance.BorderSize = 0;
+            this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHome.Image = global::nsAccountTools.Properties.Resources.home;
+            this.btnHome.Location = new System.Drawing.Point(0, 0);
+            this.btnHome.Name = "btnHome";
+            this.btnHome.Size = new System.Drawing.Size(120, 50);
+            this.btnHome.TabIndex = 1;
+            this.btnHome.TabStop = false;
+            this.btnHome.Text = "  &Início";
+            this.btnHome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnHome.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnHome.UseVisualStyleBackColor = true;
+            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // frmMenuPrincipal
             // 

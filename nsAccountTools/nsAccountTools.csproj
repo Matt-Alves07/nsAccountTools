@@ -105,6 +105,12 @@
     <Compile Include="Views\frmMenuPrincipal.Designer.cs">
       <DependentUpon>frmMenuPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\frmOpcoesFolha.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmOpcoesFolha.Designer.cs">
+      <DependentUpon>frmOpcoesFolha.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\frmScriptGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmMenuPrincipal.resx">
       <DependentUpon>frmMenuPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmOpcoesFolha.resx">
+      <DependentUpon>frmOpcoesFolha.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\frmScriptGenerator.resx">
       <DependentUpon>frmScriptGenerator.cs</DependentUpon>
@@ -158,6 +167,9 @@
     <None Include="Resources\thunder.png" />
     <None Include="Resources\search_small.png" />
     <None Include="Resources\script.png" />
+    <None Include="Resources\atualizar_historico.png" />
+    <None Include="Resources\undo.png" />
+    <None Include="Resources\team.png" />
     <Content Include="Scripts\CreateScript.txt" />
     <Content Include="Scripts\DropScript.txt" />
     <Content Include="working_j7T_icon.ico" />
