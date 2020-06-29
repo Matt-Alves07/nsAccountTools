@@ -1,0 +1,78 @@
+DROP VIEW IF EXISTS contabilizacao.vw_dadosusuarios_empresas;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_dadosusuarios_empresas AS
+SELECT
+	dd.dadousuario AS id,
+	COALESCE(e.nome, dl.descricao) AS descricao_lancamento_rubrica,
+	opp.descricao AS abertura,
+	COALESCE(ops.descricao, 'CONTA FIXA') AS abertura_secundaria,
+	dd.contadebito,
+	dd.contacredito,
+	dd.empresa AS empresa,
+	o.objeto AS fato,
+	o.descricao AS descricao_fato,
+	dc.dicionariocapitulo AS capitulo,
+	dc.descricao AS descrica_capitulo
+FROM		contabilizacao.dadosusuarios AS dd
+JOIN		contabilizacao.opcoes AS opp ON dd.opcao = opp.opcao
+LEFT JOIN	contabilizacao.opcoes AS ops ON dd.opcaosecundaria = ops.opcao
+LEFT JOIN	contabilizacao.lancamentosfatos AS lf ON lf.lancamentofato = dd.lancamentofato
+LEFT JOIN	contabilizacao.dicionariolancamentos AS dl ON lf.dicionariolancamento = dl.dicionariolancamento
+LEFT JOIN	contabilizacao.contabilizacaorubricas AS cr ON dd.contabilizacaorubrica = cr.contabilizacaorubrica
+LEFT JOIN	persona.eventos AS e ON cr.rubrica = e.evento
+LEFT JOIN	contabilizacao.dicionariocapitulos AS dc ON
+	CASE WHEN dd.contabilizacaorubrica IS NOT NULL THEN
+		cr.dicionariocapitulo = dc.dicionariocapitulo
+	ELSE
+		dl.dicionariocapitulo = dc.dicionariocapitulo
+	END
+LEFT JOIN	contabilizacao.objetodicionariocapitulos AS odc ON odc.dicionariocapitulo = dc.dicionariocapitulo
+LEFT JOIN	contabilizacao.objetos AS o ON o.objeto = odc.objeto;
+
+DROP VIEW IF EXISTS contabilizacao.vw_objetoscapitulos_descricao;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_objetoscapitulos_descricao AS
+SELECT
+	o.objeto AS fato,
+	dc.dicionariocapitulo AS capitulo,
+	dc.descricao AS descricao
+FROM		contabilizacao.objetos AS o
+JOIN		contabilizacao.objetodicionariocapitulos AS odc ON o.objeto = odc.objeto
+JOIN		contabilizacao.dicionariocapitulos AS dc ON odc.dicionariocapitulo = dc.dicionariocapitulo
+ORDER BY	o.descricao, dc.descricao;
+
+DROP VIEW IF EXISTS contabilizacao.vw_lancamentosfatos_capitulo_empresa;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_lancamentosfatos_capitulo_empresa AS
+SELECT
+	lf.lancamentofato,
+	dl.dicionariocapitulo AS capitulo,
+	f.empresa
+FROM	contabilizacao.lancamentosfatos lf
+JOIN	contabilizacao.fatos f ON lf.fato = f.fato
+JOIN	contabilizacao.dicionariolancamentos dl ON lf.dicionariolancamento = dl.dicionariolancamento;
+
+DROP VIEW IF EXISTS contabilizacao.vw_fatos_origem;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_fatos_origem AS
+SELECT
+	DISTINCT(o.descricao) AS descricao,
+	CASE WHEN df.financas THEN TRUE ELSE FALSE END AS financas,
+	CASE WHEN df.persona THEN TRUE ELSE FALSE END AS persona,
+	CASE WHEN (df.scritta OR df.estoque OR df.servicos) THEN TRUE ELSE FALSE END AS scritta
+FROM	contabilizacao.objetos o 
+JOIN	contabilizacao.objetodicionariocapitulos odc ON o.objeto = odc.objeto
+JOIN	contabilizacao.dicionariocapitulos dc ON odc.dicionariocapitulo = dc.dicionariocapitulo
+JOIN	contabilizacao.dicionariofatos df ON dc.dicionariofato = df.dicionariofato
+ORDER BY o.descricao;
+
+DROP VIEW IF EXISTS contabilizacao.vw_capitulos_tags;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_capitulos_tags AS
+SELECT
+	dc.descricao AS descricao,
+	'<#' || ct.tag || '>' AS tag
+FROM	contabilizacao.dicionariocapitulos dc
+JOIN	contabilizacao.capitulostags ct ON dc.dicionariocapitulo = ct.capitulo
+GROUP BY dc.descricao, ct.tag
+ORDER BY dc.descricao, ct.tag;

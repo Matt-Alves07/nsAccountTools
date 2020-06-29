@@ -16,14 +16,18 @@ namespace nsAccountTools.Views
 
         private void DestroyEnvironment()
         {
-            string fileAdress = @"..\..\Scripts\DropScript.txt";
+            /*string fileAdress = @"..\..\Scripts\DropScript.txt";
             if (!File.Exists(fileAdress))
             {
                 Messages.SendWarning("Não foi possível encontrar o script para exclusão das funcionalidades criadas neste banco.", "Arquivo não encontrado");
                 return;
-            }
+            }*/
 
-            string script = File.ReadAllText(fileAdress);
+            //string script = File.ReadAllText(fileAdress);
+            string script = "DROP VIEW IF EXISTS contabilizacao.vw_dadosusuarios_empresas; ";
+            script += "DROP VIEW IF EXISTS contabilizacao.vw_objetoscapitulos_descricao; ";
+            script += "DROP VIEW IF EXISTS contabilizacao.vw_fatos_origem; ";
+            script += "DROP VIEW IF EXISTS contabilizacao.vw_capitulos_tags; ";
             script = script.Replace("\r", " ");
             script = script.Replace("\n", " ");
             script = script.Replace("\t", " ");
