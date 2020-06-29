@@ -63,7 +63,8 @@ namespace nsAccountTools.Views
 
         private void btnListas_Click(object sender, EventArgs e)
         {
-            Messages.SendInfo("Mantenha a calma, jovem Padawan.\nIsso ainda está por vir...", "Aguarde...");
+            frmLIstas form = new frmLIstas(connString);
+            form.ShowDialog();
         }
     }
 }

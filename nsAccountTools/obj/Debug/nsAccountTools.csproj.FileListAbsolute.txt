@@ -36,3 +36,4 @@ C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountT
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmOpcoesFolha.resources
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmAlterarHistorico.resources
 C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmContabilizarParcial.resources
+C:\Users\matheusalves\Desktop\NsAccountTools\nsAccountTools\obj\Debug\nsAccountTools.Views.frmLIstas.resources

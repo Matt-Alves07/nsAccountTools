@@ -51,3 +51,28 @@ SELECT
 FROM	contabilizacao.lancamentosfatos lf
 JOIN	contabilizacao.fatos f ON lf.fato = f.fato
 JOIN	contabilizacao.dicionariolancamentos dl ON lf.dicionariolancamento = dl.dicionariolancamento;
+
+DROP VIEW IF EXISTS contabilizacao.vw_fatos_origem;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_fatos_origem AS
+SELECT
+	DISTINCT(o.descricao) AS descricao,
+	CASE WHEN df.financas THEN TRUE ELSE FALSE END AS financas,
+	CASE WHEN df.persona THEN TRUE ELSE FALSE END AS persona,
+	CASE WHEN (df.scritta OR df.estoque OR df.servicos) THEN TRUE ELSE FALSE END AS scritta
+FROM	contabilizacao.objetos o 
+JOIN	contabilizacao.objetodicionariocapitulos odc ON o.objeto = odc.objeto
+JOIN	contabilizacao.dicionariocapitulos dc ON odc.dicionariocapitulo = dc.dicionariocapitulo
+JOIN	contabilizacao.dicionariofatos df ON dc.dicionariofato = df.dicionariofato
+ORDER BY o.descricao;
+
+DROP VIEW IF EXISTS contabilizacao.vw_capitulos_tags;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_capitulos_tags AS
+SELECT
+	dc.descricao AS descricao,
+	'<#' || ct.tag || '>' AS tag
+FROM	contabilizacao.dicionariocapitulos dc
+JOIN	contabilizacao.capitulostags ct ON dc.dicionariocapitulo = ct.capitulo
+GROUP BY dc.descricao, ct.tag
+ORDER BY dc.descricao, ct.tag;

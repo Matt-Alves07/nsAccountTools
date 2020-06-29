@@ -37,12 +37,21 @@ namespace nsAccountTools.DAO
     {
         public string objeto = "";
         public string descricao = "";
+        public bool financas = false;
+        public bool persona = false;
+        public bool scritta = false;
     }
 
     class capitulos
     {
         public string capitulo = "";
         public string descricao = "";
+    }
+
+    class capitulosTags
+    {
+        public string descricao = "";
+        public string tag = "";
     }
 
     class DadosBase
@@ -463,8 +472,6 @@ namespace nsAccountTools.DAO
             Error error = new Error();
             error.SetErro(Error.tipoRetorno.indefinido, "", "");
 
-            if (_contabilizado == null) { _contabilizado = false; }
-
             try
             {
                 connection.ConnectionString = _connString;
@@ -600,6 +607,98 @@ namespace nsAccountTools.DAO
                 command.CommandText = $"SELECT contabilizacao.revertercontabilizacao_diaria({_processamentoFato}, {_estabelecimento}) AS done;";
 
                 _revertido = Convert.ToBoolean(command.ExecuteScalar().ToString());
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
+        }
+
+        public Error GetFatosOrigem(string _connString, ref List<fatos> _fatos)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            if (_fatos == null) { _fatos = new List<fatos>(); }
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                command.Connection = connection;
+                command.CommandText = "SELECT descricao, financas, persona, scritta FROM contabilizacao.vw_fatos_origem ORDER BY descricao;";
+
+                connection.OpenAsync();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (reader["descricao"].ToString() != "")
+                    {
+                        fatos fato = new fatos();
+                        fato.descricao = reader["descricao"].ToString().ToUpper();
+                        fato.financas = Convert.ToBoolean(reader["financas"].ToString());
+                        fato.persona = Convert.ToBoolean(reader["persona"].ToString());
+                        fato.scritta = Convert.ToBoolean(reader["scritta"].ToString());
+
+                        _fatos.Add(fato);
+                    }
+                }
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
+        }
+
+        public Error GetCapitulosTags(string _connString, string _capitulo, ref List<capitulosTags> _capitulosTags)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            if (_capitulosTags == null) { _capitulosTags = new List<capitulosTags>(); }
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                command.Connection = connection;
+                command.CommandText = $"SELECT descricao, tag FROM contabilizacao.vw_capitulos_tags WHERE descricao = {_capitulo} ORDER BY descricao, tag;";
+
+                connection.OpenAsync();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (reader["descricao"].ToString() != "")
+                    {
+                        capitulosTags capitulotag = new capitulosTags();
+                        capitulotag.descricao = reader["descricao"].ToString();
+                        capitulotag.tag = reader["tag"].ToString();
+
+                        _capitulosTags.Add(capitulotag);
+                    }
+                }
             } catch (NpgsqlException ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);

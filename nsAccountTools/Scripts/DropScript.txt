@@ -1,3 +1,5 @@
 DROP VIEW IF EXISTS contabilizacao.vw_dadosusuarios_empresas;
 DROP VIEW IF EXISTS contabilizacao.vw_objetoscapitulos_descricao;
 DROP VIEW IF EXISTS contabilizacao.vw_lancamentosfatos_capitulo_empresa;
+DROP VIEW IF EXISTS contabilizacao.vw_fatos_origem;
+DROP VIEW IF EXISTS contabilizacao.vw_capitulos_tags;
