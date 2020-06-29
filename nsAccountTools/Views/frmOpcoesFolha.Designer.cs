@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOpcoesFolha));
             this.pnlMenu = new System.Windows.Forms.Panel();
             this.btnSair = new System.Windows.Forms.Button();
-            this.btnAlterarHistorico = new System.Windows.Forms.Button();
-            this.btnContabilizar = new System.Windows.Forms.Button();
             this.btnReverter = new System.Windows.Forms.Button();
+            this.btnContabilizar = new System.Windows.Forms.Button();
+            this.btnAlterarHistorico = new System.Windows.Forms.Button();
             this.pnlMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,21 +66,21 @@
             this.btnSair.UseVisualStyleBackColor = true;
             this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
             // 
-            // btnAlterarHistorico
+            // btnReverter
             // 
-            this.btnAlterarHistorico.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAlterarHistorico.FlatAppearance.BorderSize = 0;
-            this.btnAlterarHistorico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAlterarHistorico.Image = global::nsAccountTools.Properties.Resources.atualizar_historico;
-            this.btnAlterarHistorico.Location = new System.Drawing.Point(85, 173);
-            this.btnAlterarHistorico.Name = "btnAlterarHistorico";
-            this.btnAlterarHistorico.Size = new System.Drawing.Size(200, 150);
-            this.btnAlterarHistorico.TabIndex = 3;
-            this.btnAlterarHistorico.TabStop = false;
-            this.btnAlterarHistorico.Text = "Alterar histórico";
-            this.btnAlterarHistorico.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnAlterarHistorico.UseVisualStyleBackColor = true;
-            this.btnAlterarHistorico.Click += new System.EventHandler(this.btnAlterarHistorico_Click);
+            this.btnReverter.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReverter.FlatAppearance.BorderSize = 0;
+            this.btnReverter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReverter.Image = global::nsAccountTools.Properties.Resources.undo;
+            this.btnReverter.Location = new System.Drawing.Point(497, 173);
+            this.btnReverter.Name = "btnReverter";
+            this.btnReverter.Size = new System.Drawing.Size(200, 150);
+            this.btnReverter.TabIndex = 6;
+            this.btnReverter.TabStop = false;
+            this.btnReverter.Text = "Reversão por tipos";
+            this.btnReverter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnReverter.UseVisualStyleBackColor = true;
+            this.btnReverter.Click += new System.EventHandler(this.btnReverter_Click);
             // 
             // btnContabilizar
             // 
@@ -96,21 +96,23 @@
             this.btnContabilizar.Text = "Contabilização por tipos";
             this.btnContabilizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnContabilizar.UseVisualStyleBackColor = true;
+            this.btnContabilizar.Click += new System.EventHandler(this.btnContabilizar_Click);
             // 
-            // btnReverter
+            // btnAlterarHistorico
             // 
-            this.btnReverter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnReverter.FlatAppearance.BorderSize = 0;
-            this.btnReverter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReverter.Image = global::nsAccountTools.Properties.Resources.undo;
-            this.btnReverter.Location = new System.Drawing.Point(497, 173);
-            this.btnReverter.Name = "btnReverter";
-            this.btnReverter.Size = new System.Drawing.Size(200, 150);
-            this.btnReverter.TabIndex = 6;
-            this.btnReverter.TabStop = false;
-            this.btnReverter.Text = "Reversão por tipos";
-            this.btnReverter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnReverter.UseVisualStyleBackColor = true;
+            this.btnAlterarHistorico.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAlterarHistorico.FlatAppearance.BorderSize = 0;
+            this.btnAlterarHistorico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAlterarHistorico.Image = global::nsAccountTools.Properties.Resources.atualizar_historico;
+            this.btnAlterarHistorico.Location = new System.Drawing.Point(85, 173);
+            this.btnAlterarHistorico.Name = "btnAlterarHistorico";
+            this.btnAlterarHistorico.Size = new System.Drawing.Size(200, 150);
+            this.btnAlterarHistorico.TabIndex = 3;
+            this.btnAlterarHistorico.TabStop = false;
+            this.btnAlterarHistorico.Text = "Alterar histórico";
+            this.btnAlterarHistorico.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnAlterarHistorico.UseVisualStyleBackColor = true;
+            this.btnAlterarHistorico.Click += new System.EventHandler(this.btnAlterarHistorico_Click);
             // 
             // frmOpcoesFolha
             // 

@@ -31,5 +31,21 @@ namespace nsAccountTools.Views
             form.ShowDialog();
             Show();
         }
+
+        private void btnContabilizar_Click(object sender, EventArgs e)
+        {
+            frmContabilizarParcial form = new frmContabilizarParcial(connString);
+            Hide();
+            form.ShowDialog();
+            Show();
+        }
+
+        private void btnReverter_Click(object sender, EventArgs e)
+        {
+            frmContabilizarParcial form = new frmContabilizarParcial(connString, "reverter");
+            Hide();
+            form.ShowDialog();
+            Show();
+        }
     }
 }

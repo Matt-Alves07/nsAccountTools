@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,7 +78,7 @@ namespace nsAccountTools.DAO
                         gruposEmpresariais gruposEmpresariais = new gruposEmpresariais();
                         gruposEmpresariais.grupoEmpresarial = "'" + reader["grupoempresarial"].ToString() + "'";
                         gruposEmpresariais.codigo = reader["codigo"].ToString();
-                        gruposEmpresariais.descricao = reader["descricao"].ToString();
+                        gruposEmpresariais.descricao = reader["descricao"].ToString().ToUpper();
 
                         _gruposempresariais.Add(gruposEmpresariais);
                     }
@@ -127,7 +128,7 @@ namespace nsAccountTools.DAO
                         empresas empresa = new empresas();
                         empresa.empresa = "'" + reader["empresa"].ToString() + "'";
                         empresa.codigo = reader["codigo"].ToString();
-                        empresa.razaosocial = reader["razaosocial"].ToString();
+                        empresa.razaosocial = reader["razaosocial"].ToString().ToUpper();
 
                         _empresas.Add(empresa);
                     }
@@ -146,6 +147,56 @@ namespace nsAccountTools.DAO
             }
 
             error.retorno = Error.tipoRetorno.sucesso;
+            return error;
+        }
+
+        public Error GetEstabelecimentos(string _connString, string _empresa, ref List<estabelecimentos> _estabelecimentos)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            if (_estabelecimentos == null)
+            {
+                _estabelecimentos = new List<estabelecimentos>();
+            }
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                command.Connection = connection;
+                command.CommandText = "SELECT estabelecimento, codigo, COALESCE(descricao, nomefantasia) AS descricao FROM ns.estabelecimentos ";
+                command.CommandText += $"WHERE empresa = {_empresa} ORDER BY codigo;";
+
+                connection.OpenAsync();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (reader["estabelecimento"].ToString() != "")
+                    {
+                        estabelecimentos estabelecimento = new estabelecimentos();
+                        estabelecimento.estabelecimento = "'" + reader["estabelecimento"].ToString() + "'";
+                        estabelecimento.codigo = reader["codigo"].ToString();
+                        estabelecimento.descricao = reader["descricao"].ToString().ToUpper();
+
+                        _estabelecimentos.Add(estabelecimento);
+                    }
+                }
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
             return error;
         }
 
@@ -336,87 +387,234 @@ namespace nsAccountTools.DAO
             return error;
         }
 
-        //RETORNA A LISTA DE ESTABELECIMENTOS EXISTENTES NA CONEXÃO PREENCHIDA
-        //NA TELA INICIAL, A PARTIR DE UM GRUPO E UMA EMPRESA, DENTRO DESSE GRUPO
-        public List<string> GetEstabelecimentos(string _connString, string _grupo, string _empresa)
-        {
-            List<string> codigos = new List<string>();
-            codigos.Clear();
+        public Error GetContabilizacoes(
+            string _connString,
+            string _tipo,
+            string _estabelecimento,
+            string _dataInicio,
+            string _dataFinal,
+            ref string _processamentoFato,
+            ref List<string> _contabilizacoes
+        ) {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            if (_contabilizacoes == null)
+            {
+                _contabilizacoes = new List<string>();
+            }
 
             try
             {
                 connection.ConnectionString = _connString;
 
                 command.Connection = connection;
-                command.CommandText = "SELECT codigo_estabelecimento FROM contabilizacao.vw_dadosbase WHERE codigo_grupo = '@grupo' AND codigo_empresa = '@empresa' ORDER BY codigo_estabelecimento;";
-                command.Parameters.AddWithValue("@grupo", _grupo);
-                command.Parameters.AddWithValue("@empresa", _empresa);
+                command.CommandText = "SELECT c.contabilizacao FROM contabilizacao.contabilizacoes c ";
+                command.CommandText += "JOIN contabilizacao.sumario_contabilizacoes sc ON c.contabilizacao = sc.contabilizacao ";
+                command.CommandText += $"WHERE c.estabelecimento = {_estabelecimento} AND c.chavepersona ILIKE '{_tipo}%' ";
+                command.CommandText += $"AND sc.data BETWEEN '{_dataInicio}'::DATE AND '{_dataFinal}'::DATE ";
+                command.CommandText += "AND NOT(c.processado) AND c.persona;";
 
                 connection.OpenAsync();
 
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    if(!(reader.GetString(0).ToString() == ""))
+                    if (reader["contabilizacao"].ToString() != "")
                     {
-                        codigos.Add(reader.GetString(0).ToString());
+                        string contabilizacao = "'" + reader["contabilizacao"].ToString() + "'";
+
+                        _contabilizacoes.Add(contabilizacao);
                     }
+                }
+
+                if (_contabilizacoes.Count > 0)
+                {
+                    connection.CloseAsync();
+
+                    connection.OpenAsync();
+
+                    command.CommandText = "";
+                    command.CommandText += "INSERT INTO contabilizacao.processamentosfatos(total, status, processamento, data_inicial, data_final) ";
+                    command.CommandText += $"VALUES({_contabilizacoes.Count()}, 1, (SELECT CLOCK_TIMESTAMP()), '{_dataInicio}'::DATE, '{_dataFinal}'::DATE) ";
+                    command.CommandText += "RETURNING processamentofato;";
+
+                    _processamentoFato = "'" + command.ExecuteScalar().ToString() + "'";
                 }
             } catch (NpgsqlException ex)
             {
-                Messages.SendError("Ocorreu um erro ao acessar o banco de dados.\nDetalhes: " + ex.Message.ToString(), "Erro");
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
             } catch (Exception ex)
             {
-                Messages.SendError("Ocorreu um erro. Detalhes: " + ex.Message.ToString(), "Erro");
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
             } finally
             {
                 connection.CloseAsync();
             }
 
-            return codigos;
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
         }
 
-        //RETORNA O NOME DO ESTABELECIMENTO SELECIONADO NO COMBO
-        public string GetNomeEstabelecimento(string _connString, string _grupo, string _empresa, string _codigo)
+        public Error Contabilizar(string _connString, string _contabilizacao, ref bool _contabilizado, ref string _processamentoFato)
         {
-            string retorno = "";
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            if (_contabilizado == null) { _contabilizado = false; }
 
             try
             {
                 connection.ConnectionString = _connString;
 
                 command.Connection = connection;
-                command.CommandText = "SELECT nome_estabelecimento FROM contabilizacao.vw_dadosbase WHERE codigo_grupo = '@grupo' AND codigo_empresa = '@empresa' ";
-                command.CommandText = command.CommandText + "AND codigo_estabelecimento = '@codigo';";
-                command.Parameters.AddWithValue("@grupo", _grupo);
-                command.Parameters.AddWithValue("@empresa", _empresa);
-                command.Parameters.AddWithValue("@codigo", _codigo);
+                command.CommandText = $"SELECT contabilizacao.contabilizar({_contabilizacao}) AS done;";
+
+                connection.OpenAsync();
+
+                _contabilizado = Convert.ToBoolean(command.ExecuteScalar().ToString());
+
+                if (_contabilizado)
+                {
+                    connection.CloseAsync();
+
+                    connection.OpenAsync();
+
+                    command.CommandText = "";
+                    command.CommandText = $"SELECT processamentofato FROM contabilizacao.contabilizacoes WHERE contabilizacao = {_contabilizacao};";
+
+                    _processamentoFato = "'" + command.ExecuteScalar().ToString() + "'";
+                }
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
+        }
+
+        public Error FinalizarContabilizar(string _connString, string _processamentoFato, string _itens)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                command.Connection = connection;
+                command.CommandText = $"UPDATE contabilizacao.lancamentoscontabeis SET processamentofato = {_processamentoFato} WHERE processamentofato IN ({_itens}); ";
+                command.CommandText += $"UPDATE contabilizacao.lancamentoscontabilizacao SET processamentofato = {_processamentoFato} WHERE processamentofato IN ({_itens}); ";
+                command.CommandText += $"UPDATE contabilizacao.contabilizacoes SET processamentofato = {_processamentoFato} WHERE processamentofato IN ({_itens});";
+
+                connection.OpenAsync();
+
+                command.ExecuteNonQuery();
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
+        }
+
+        public Error GetProcessamentoFatos(string _connString, string _estabelecimento, string _tipo, string _dataInicial, string _dataFinal, ref List<string> _processamentoFatos)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            if (_processamentoFatos == null) { _processamentoFatos = new List<string>(); }
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                command.Connection = connection;
+                command.CommandText = "SELECT DISTINCT(c.processamentofato) AS processamentofato FROM contabilizacao.contabilizacoes c ";
+                command.CommandText += "JOIN contabilizacao.sumario_contabilizacoes sc ON c.contabilizacao = sc.contabilizacao ";
+                command.CommandText += $"WHERE c.estabelecimento = {_estabelecimento} AND c.chavepersona ILIKE '{_tipo}%' ";
+                command.CommandText += $"AND sc.data BETWEEN '{_dataInicial}'::DATE AND '{_dataFinal}'::DATE ";
+                command.CommandText += $"AND c.processado AND c.lote IS NULL AND c.persona AND processamentofato IS NOT NULL;";
 
                 connection.OpenAsync();
 
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    if (!(reader.GetString(0).ToString() == ""))
+                    if (reader["processamentofato"].ToString() != "")
                     {
-                        retorno = reader.GetString(0).ToString().ToUpper();
-                    } else
-                    {
-                        retorno = "<NÃO ENCONTRADO>";
+                        string processamentoFato = "'" + reader["processamentofato"].ToString() + "'";
+
+                        _processamentoFatos.Add(processamentoFato);
                     }
                 }
             } catch (NpgsqlException ex)
             {
-                Messages.SendError("Ocorreu um erro ao acessar o banco de dados.\nDetalhes: " + ex.Message.ToString(), "Erro");
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
             } catch (Exception ex)
             {
-                Messages.SendError("Ocorreu um erro. Detalhes: " + ex.Message.ToString(), "Erro");
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
             } finally
             {
                 connection.CloseAsync();
             }
 
-            return retorno;
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
+        }
+
+        public Error ReverteContabilizacao(string _connString, string _estabelecimento, string _processamentoFato, ref bool _revertido)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                connection.OpenAsync();
+
+                command.Connection = connection;
+                command.CommandText = $"SELECT contabilizacao.revertercontabilizacao_diaria({_processamentoFato}, {_estabelecimento}) AS done;";
+
+                _revertido = Convert.ToBoolean(command.ExecuteScalar().ToString());
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
         }
     }
 }

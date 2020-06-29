@@ -17,7 +17,7 @@
         {
             retorno = _tipoRetorno;
             codigo = _codigo;
-            mensagem = _codigo;
+            mensagem = _mensagem;
         }
 
         public string GetCodigo() => codigo;

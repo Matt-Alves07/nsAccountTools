@@ -30,33 +30,33 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAlterarHistorico));
             this.pnlMenu = new System.Windows.Forms.Panel();
-            this.tbcInfo = new System.Windows.Forms.TabControl();
-            this.tbpLancamentosRubricas = new System.Windows.Forms.TabPage();
             this.btnSair = new System.Windows.Forms.Button();
-            this.tbpHistorico = new System.Windows.Forms.TabPage();
+            this.tbcInfo = new System.Windows.Forms.TabControl();
             this.tbpEmpresa = new System.Windows.Forms.TabPage();
             this.lblGrupoEmpresarial = new System.Windows.Forms.Label();
             this.cbbGrupo = new System.Windows.Forms.ComboBox();
             this.lblEmpresa = new System.Windows.Forms.Label();
             this.cbbEmpresa = new System.Windows.Forms.ComboBox();
+            this.tbpLancamentosRubricas = new System.Windows.Forms.TabPage();
+            this.gpbOpcao = new System.Windows.Forms.GroupBox();
+            this.rdbRubricas = new System.Windows.Forms.RadioButton();
+            this.rdbLancamentos = new System.Windows.Forms.RadioButton();
             this.lblFato = new System.Windows.Forms.Label();
             this.cbbFato = new System.Windows.Forms.ComboBox();
+            this.lblCapitulo = new System.Windows.Forms.Label();
             this.cbbCapitulo = new System.Windows.Forms.ComboBox();
+            this.tbpHistorico = new System.Windows.Forms.TabPage();
             this.txtHistorico = new System.Windows.Forms.TextBox();
             this.pnlAlterar = new System.Windows.Forms.Panel();
             this.btnProcessar = new System.Windows.Forms.Button();
-            this.gpbOpcao = new System.Windows.Forms.GroupBox();
-            this.rdbLancamentos = new System.Windows.Forms.RadioButton();
-            this.rdbRubricas = new System.Windows.Forms.RadioButton();
-            this.lblCapitulo = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.pnlMenu.SuspendLayout();
             this.tbcInfo.SuspendLayout();
-            this.tbpLancamentosRubricas.SuspendLayout();
-            this.tbpHistorico.SuspendLayout();
             this.tbpEmpresa.SuspendLayout();
-            this.pnlAlterar.SuspendLayout();
+            this.tbpLancamentosRubricas.SuspendLayout();
             this.gpbOpcao.SuspendLayout();
+            this.tbpHistorico.SuspendLayout();
+            this.pnlAlterar.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlMenu
@@ -68,32 +68,6 @@
             this.pnlMenu.Name = "pnlMenu";
             this.pnlMenu.Size = new System.Drawing.Size(800, 50);
             this.pnlMenu.TabIndex = 3;
-            // 
-            // tbcInfo
-            // 
-            this.tbcInfo.Controls.Add(this.tbpEmpresa);
-            this.tbcInfo.Controls.Add(this.tbpLancamentosRubricas);
-            this.tbcInfo.Controls.Add(this.tbpHistorico);
-            this.tbcInfo.Location = new System.Drawing.Point(0, 56);
-            this.tbcInfo.Name = "tbcInfo";
-            this.tbcInfo.SelectedIndex = 0;
-            this.tbcInfo.Size = new System.Drawing.Size(800, 112);
-            this.tbcInfo.TabIndex = 4;
-            // 
-            // tbpLancamentosRubricas
-            // 
-            this.tbpLancamentosRubricas.Controls.Add(this.gpbOpcao);
-            this.tbpLancamentosRubricas.Controls.Add(this.lblFato);
-            this.tbpLancamentosRubricas.Controls.Add(this.cbbFato);
-            this.tbpLancamentosRubricas.Controls.Add(this.lblCapitulo);
-            this.tbpLancamentosRubricas.Controls.Add(this.cbbCapitulo);
-            this.tbpLancamentosRubricas.Location = new System.Drawing.Point(4, 25);
-            this.tbpLancamentosRubricas.Name = "tbpLancamentosRubricas";
-            this.tbpLancamentosRubricas.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpLancamentosRubricas.Size = new System.Drawing.Size(792, 83);
-            this.tbpLancamentosRubricas.TabIndex = 0;
-            this.tbpLancamentosRubricas.Text = "Lançamentos/Rubricas";
-            this.tbpLancamentosRubricas.UseVisualStyleBackColor = true;
             // 
             // btnSair
             // 
@@ -114,16 +88,16 @@
             this.btnSair.UseVisualStyleBackColor = true;
             this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
             // 
-            // tbpHistorico
+            // tbcInfo
             // 
-            this.tbpHistorico.Controls.Add(this.txtHistorico);
-            this.tbpHistorico.Location = new System.Drawing.Point(4, 25);
-            this.tbpHistorico.Name = "tbpHistorico";
-            this.tbpHistorico.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpHistorico.Size = new System.Drawing.Size(792, 83);
-            this.tbpHistorico.TabIndex = 2;
-            this.tbpHistorico.Text = "Histórico";
-            this.tbpHistorico.UseVisualStyleBackColor = true;
+            this.tbcInfo.Controls.Add(this.tbpEmpresa);
+            this.tbcInfo.Controls.Add(this.tbpLancamentosRubricas);
+            this.tbcInfo.Controls.Add(this.tbpHistorico);
+            this.tbcInfo.Location = new System.Drawing.Point(0, 56);
+            this.tbcInfo.Name = "tbcInfo";
+            this.tbcInfo.SelectedIndex = 0;
+            this.tbcInfo.Size = new System.Drawing.Size(800, 112);
+            this.tbcInfo.TabIndex = 4;
             // 
             // tbpEmpresa
             // 
@@ -157,8 +131,7 @@
             this.cbbGrupo.Location = new System.Drawing.Point(8, 14);
             this.cbbGrupo.Name = "cbbGrupo";
             this.cbbGrupo.Size = new System.Drawing.Size(250, 24);
-            this.cbbGrupo.TabIndex = 12;
-            this.cbbGrupo.TabStop = false;
+            this.cbbGrupo.TabIndex = 0;
             this.cbbGrupo.SelectedValueChanged += new System.EventHandler(this.cbbGrupo_SelectedValueChanged);
             // 
             // lblEmpresa
@@ -179,9 +152,61 @@
             this.cbbEmpresa.Location = new System.Drawing.Point(8, 43);
             this.cbbEmpresa.Name = "cbbEmpresa";
             this.cbbEmpresa.Size = new System.Drawing.Size(250, 24);
-            this.cbbEmpresa.TabIndex = 10;
-            this.cbbEmpresa.TabStop = false;
+            this.cbbEmpresa.TabIndex = 1;
             this.cbbEmpresa.SelectedValueChanged += new System.EventHandler(this.cbbEmpresa_SelectedValueChanged);
+            // 
+            // tbpLancamentosRubricas
+            // 
+            this.tbpLancamentosRubricas.Controls.Add(this.gpbOpcao);
+            this.tbpLancamentosRubricas.Controls.Add(this.lblFato);
+            this.tbpLancamentosRubricas.Controls.Add(this.cbbFato);
+            this.tbpLancamentosRubricas.Controls.Add(this.lblCapitulo);
+            this.tbpLancamentosRubricas.Controls.Add(this.cbbCapitulo);
+            this.tbpLancamentosRubricas.Location = new System.Drawing.Point(4, 25);
+            this.tbpLancamentosRubricas.Name = "tbpLancamentosRubricas";
+            this.tbpLancamentosRubricas.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpLancamentosRubricas.Size = new System.Drawing.Size(792, 83);
+            this.tbpLancamentosRubricas.TabIndex = 0;
+            this.tbpLancamentosRubricas.Text = "Lançamentos/Rubricas";
+            this.tbpLancamentosRubricas.UseVisualStyleBackColor = true;
+            // 
+            // gpbOpcao
+            // 
+            this.gpbOpcao.Controls.Add(this.rdbRubricas);
+            this.gpbOpcao.Controls.Add(this.rdbLancamentos);
+            this.gpbOpcao.Dock = System.Windows.Forms.DockStyle.Right;
+            this.gpbOpcao.Location = new System.Drawing.Point(630, 3);
+            this.gpbOpcao.Name = "gpbOpcao";
+            this.gpbOpcao.Size = new System.Drawing.Size(159, 77);
+            this.gpbOpcao.TabIndex = 14;
+            this.gpbOpcao.TabStop = false;
+            this.gpbOpcao.Text = "Opção a alterar";
+            // 
+            // rdbRubricas
+            // 
+            this.rdbRubricas.AutoSize = true;
+            this.rdbRubricas.FlatAppearance.BorderSize = 0;
+            this.rdbRubricas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rdbRubricas.Location = new System.Drawing.Point(7, 49);
+            this.rdbRubricas.Name = "rdbRubricas";
+            this.rdbRubricas.Size = new System.Drawing.Size(84, 21);
+            this.rdbRubricas.TabIndex = 4;
+            this.rdbRubricas.Text = "Rubricas";
+            this.rdbRubricas.UseVisualStyleBackColor = true;
+            // 
+            // rdbLancamentos
+            // 
+            this.rdbLancamentos.AutoSize = true;
+            this.rdbLancamentos.Checked = true;
+            this.rdbLancamentos.FlatAppearance.BorderSize = 0;
+            this.rdbLancamentos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rdbLancamentos.Location = new System.Drawing.Point(7, 22);
+            this.rdbLancamentos.Name = "rdbLancamentos";
+            this.rdbLancamentos.Size = new System.Drawing.Size(113, 21);
+            this.rdbLancamentos.TabIndex = 4;
+            this.rdbLancamentos.TabStop = true;
+            this.rdbLancamentos.Text = "Lançamentos";
+            this.rdbLancamentos.UseVisualStyleBackColor = true;
             // 
             // lblFato
             // 
@@ -201,8 +226,18 @@
             this.cbbFato.Location = new System.Drawing.Point(8, 14);
             this.cbbFato.Name = "cbbFato";
             this.cbbFato.Size = new System.Drawing.Size(250, 24);
-            this.cbbFato.TabIndex = 12;
+            this.cbbFato.TabIndex = 2;
             this.cbbFato.SelectedValueChanged += new System.EventHandler(this.cbbFato_SelectedValueChanged);
+            // 
+            // lblCapitulo
+            // 
+            this.lblCapitulo.AutoSize = true;
+            this.lblCapitulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblCapitulo.Location = new System.Drawing.Point(264, 46);
+            this.lblCapitulo.Name = "lblCapitulo";
+            this.lblCapitulo.Size = new System.Drawing.Size(101, 17);
+            this.lblCapitulo.TabIndex = 11;
+            this.lblCapitulo.Text = "<SELECIONE>";
             // 
             // cbbCapitulo
             // 
@@ -212,15 +247,26 @@
             this.cbbCapitulo.Location = new System.Drawing.Point(8, 43);
             this.cbbCapitulo.Name = "cbbCapitulo";
             this.cbbCapitulo.Size = new System.Drawing.Size(250, 24);
-            this.cbbCapitulo.TabIndex = 10;
+            this.cbbCapitulo.TabIndex = 3;
             this.cbbCapitulo.SelectedValueChanged += new System.EventHandler(this.cbbCapitulo_SelectedValueChanged);
+            // 
+            // tbpHistorico
+            // 
+            this.tbpHistorico.Controls.Add(this.txtHistorico);
+            this.tbpHistorico.Location = new System.Drawing.Point(4, 25);
+            this.tbpHistorico.Name = "tbpHistorico";
+            this.tbpHistorico.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpHistorico.Size = new System.Drawing.Size(792, 83);
+            this.tbpHistorico.TabIndex = 2;
+            this.tbpHistorico.Text = "Histórico";
+            this.tbpHistorico.UseVisualStyleBackColor = true;
             // 
             // txtHistorico
             // 
             this.txtHistorico.Location = new System.Drawing.Point(9, 24);
             this.txtHistorico.Name = "txtHistorico";
             this.txtHistorico.Size = new System.Drawing.Size(775, 22);
-            this.txtHistorico.TabIndex = 0;
+            this.txtHistorico.TabIndex = 5;
             // 
             // pnlAlterar
             // 
@@ -242,58 +288,11 @@
             this.btnProcessar.Name = "btnProcessar";
             this.btnProcessar.Size = new System.Drawing.Size(792, 40);
             this.btnProcessar.TabIndex = 0;
+            this.btnProcessar.TabStop = false;
             this.btnProcessar.Text = "  &Processar";
             this.btnProcessar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnProcessar.UseVisualStyleBackColor = true;
             this.btnProcessar.Click += new System.EventHandler(this.btnProcessar_Click);
-            // 
-            // gpbOpcao
-            // 
-            this.gpbOpcao.Controls.Add(this.rdbRubricas);
-            this.gpbOpcao.Controls.Add(this.rdbLancamentos);
-            this.gpbOpcao.Dock = System.Windows.Forms.DockStyle.Right;
-            this.gpbOpcao.Location = new System.Drawing.Point(630, 3);
-            this.gpbOpcao.Name = "gpbOpcao";
-            this.gpbOpcao.Size = new System.Drawing.Size(159, 77);
-            this.gpbOpcao.TabIndex = 14;
-            this.gpbOpcao.TabStop = false;
-            this.gpbOpcao.Text = "Opção a alterar";
-            // 
-            // rdbLancamentos
-            // 
-            this.rdbLancamentos.AutoSize = true;
-            this.rdbLancamentos.Checked = true;
-            this.rdbLancamentos.FlatAppearance.BorderSize = 0;
-            this.rdbLancamentos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rdbLancamentos.Location = new System.Drawing.Point(7, 22);
-            this.rdbLancamentos.Name = "rdbLancamentos";
-            this.rdbLancamentos.Size = new System.Drawing.Size(113, 21);
-            this.rdbLancamentos.TabIndex = 0;
-            this.rdbLancamentos.TabStop = true;
-            this.rdbLancamentos.Text = "Lançamentos";
-            this.rdbLancamentos.UseVisualStyleBackColor = true;
-            // 
-            // rdbRubricas
-            // 
-            this.rdbRubricas.AutoSize = true;
-            this.rdbRubricas.FlatAppearance.BorderSize = 0;
-            this.rdbRubricas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rdbRubricas.Location = new System.Drawing.Point(7, 49);
-            this.rdbRubricas.Name = "rdbRubricas";
-            this.rdbRubricas.Size = new System.Drawing.Size(84, 21);
-            this.rdbRubricas.TabIndex = 1;
-            this.rdbRubricas.Text = "Rubricas";
-            this.rdbRubricas.UseVisualStyleBackColor = true;
-            // 
-            // lblCapitulo
-            // 
-            this.lblCapitulo.AutoSize = true;
-            this.lblCapitulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblCapitulo.Location = new System.Drawing.Point(264, 46);
-            this.lblCapitulo.Name = "lblCapitulo";
-            this.lblCapitulo.Size = new System.Drawing.Size(101, 17);
-            this.lblCapitulo.TabIndex = 11;
-            this.lblCapitulo.Text = "<SELECIONE>";
             // 
             // lblStatus
             // 
@@ -317,19 +316,19 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmAlterarHistorico";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmAlterarHistorico";
+            this.Text = "Alterar Históricos";
             this.Shown += new System.EventHandler(this.frmAlterarHistorico_Shown);
             this.pnlMenu.ResumeLayout(false);
             this.tbcInfo.ResumeLayout(false);
-            this.tbpLancamentosRubricas.ResumeLayout(false);
-            this.tbpLancamentosRubricas.PerformLayout();
-            this.tbpHistorico.ResumeLayout(false);
-            this.tbpHistorico.PerformLayout();
             this.tbpEmpresa.ResumeLayout(false);
             this.tbpEmpresa.PerformLayout();
-            this.pnlAlterar.ResumeLayout(false);
+            this.tbpLancamentosRubricas.ResumeLayout(false);
+            this.tbpLancamentosRubricas.PerformLayout();
             this.gpbOpcao.ResumeLayout(false);
             this.gpbOpcao.PerformLayout();
+            this.tbpHistorico.ResumeLayout(false);
+            this.tbpHistorico.PerformLayout();
+            this.pnlAlterar.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
