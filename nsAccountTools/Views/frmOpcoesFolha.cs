@@ -23,5 +23,13 @@ namespace nsAccountTools.Views
         {
             Close();
         }
+
+        private void btnAlterarHistorico_Click(object sender, EventArgs e)
+        {
+            frmAlterarHistorico form = new frmAlterarHistorico(connString);
+            Hide();
+            form.ShowDialog();
+            Show();
+        }
     }
 }

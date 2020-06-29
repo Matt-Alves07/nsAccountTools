@@ -40,3 +40,14 @@ FROM		contabilizacao.objetos AS o
 JOIN		contabilizacao.objetodicionariocapitulos AS odc ON o.objeto = odc.objeto
 JOIN		contabilizacao.dicionariocapitulos AS dc ON odc.dicionariocapitulo = dc.dicionariocapitulo
 ORDER BY	o.descricao, dc.descricao;
+
+DROP VIEW IF EXISTS contabilizacao.vw_lancamentosfatos_capitulo_empresa;
+
+CREATE OR REPLACE VIEW contabilizacao.vw_lancamentosfatos_capitulo_empresa AS
+SELECT
+	lf.lancamentofato,
+	dl.dicionariocapitulo AS capitulo,
+	f.empresa
+FROM	contabilizacao.lancamentosfatos lf
+JOIN	contabilizacao.fatos f ON lf.fato = f.fato
+JOIN	contabilizacao.dicionariolancamentos dl ON lf.dicionariolancamento = dl.dicionariolancamento;

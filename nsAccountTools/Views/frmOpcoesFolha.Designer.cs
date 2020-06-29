@@ -80,6 +80,7 @@
             this.btnAlterarHistorico.Text = "Alterar histórico";
             this.btnAlterarHistorico.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnAlterarHistorico.UseVisualStyleBackColor = true;
+            this.btnAlterarHistorico.Click += new System.EventHandler(this.btnAlterarHistorico_Click);
             // 
             // btnContabilizar
             // 

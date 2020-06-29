@@ -85,20 +85,10 @@ namespace nsAccountTools.DAO
             } catch (NpgsqlException ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.CloseAsync();
-                }
-
                 return error;
             } catch (Exception ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, "", ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.CloseAsync();
-                }
-
                 return error;
             } finally
             {
@@ -145,20 +135,10 @@ namespace nsAccountTools.DAO
             } catch (NpgsqlException ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.CloseAsync();
-                }
-
                 return error;
             } catch (Exception ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, "", ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.CloseAsync();
-                }
-
                 return error;
             } finally
             {
@@ -203,20 +183,10 @@ namespace nsAccountTools.DAO
             } catch (NpgsqlException ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.CloseAsync();
-                }
-
                 return error;
             } catch (Exception ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, "", ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.CloseAsync();
-                }
-
                 return error;
             } finally
             {
@@ -262,20 +232,100 @@ namespace nsAccountTools.DAO
             } catch (NpgsqlException ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.CloseAsync();
-                }
-
                 return error;
             } catch (Exception ex)
             {
                 error.SetErro(Error.tipoRetorno.erro, "", ex.Message.ToString());
-                if (connection.State == System.Data.ConnectionState.Open)
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
+        }
+
+        public Error GetQuantidadeLancamentos(string _connString, string _empresa, string _capitulo, bool _lancamento, ref int _total)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                command.Connection = connection;
+                if (_lancamento)
                 {
-                    connection.CloseAsync();
+                    command.CommandText = "SELECT COUNT(*) AS total FROM contabilizacao.vw_lancamentosfatos_capitulo_empresa ";
+                    command.CommandText += $"WHERE empresa = {_empresa} AND capitulo = {_capitulo};";
+                } else
+                {
+                    command.CommandText = "SELECT COUNT(*) AS total FROM contabilizacao.contabilizacaorubricas ";
+                    command.CommandText += $"WHERE empresa = {_empresa} AND dicionariocapitulo = {_capitulo};";
                 }
 
+                connection.OpenAsync();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (reader["total"].ToString() != "")
+                    {
+                        _total = Convert.ToInt32(reader["total"].ToString());
+                    } else
+                    {
+                        _total = 0;
+                    }
+                }
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message.ToString());
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message.ToString());
+                return error;
+            } finally
+            {
+                connection.CloseAsync();
+            }
+
+            error.SetErro(Error.tipoRetorno.sucesso, "", "");
+            return error;
+        }
+
+        public Error UpdateHistorico(string _connString, string _empresa, string _capitulo, string _historico, bool _lancamentos = true)
+        {
+            Error error = new Error();
+            error.SetErro(Error.tipoRetorno.indefinido, "", "");
+
+            try
+            {
+                connection.ConnectionString = _connString;
+
+                command.Connection = connection;
+                if (_lancamentos)
+                {
+                    command.CommandText = "WITH lista_lancamentos AS (SELECT lancamentofato lancamentos FROM contabilizacao.vw_lancamentosfatos_capitulo_empresa ";
+                    command.CommandText += $"WHERE empresa ={_empresa} AND capitulo = {_capitulo})";
+                    command.CommandText += $"UPDATE contabilizacao.lancamentosfatos SET historico = '{_historico}' WHERE lancamentofato IN (SELECT lancamentos FROM lista_lancamentos);";
+                } else
+                {
+                    command.CommandText = $"UPDATE contabilizacao.contabilizacaorubricas SET historico = '{_historico}' WHERE empresa = {_empresa} AND dicionariocapitulo = {_capitulo};";
+                }
+
+                connection.OpenAsync();
+
+                command.ExecuteNonQuery();
+            } catch (NpgsqlException ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, ex.ErrorCode.ToString(), ex.Message);
+                return error;
+            } catch (Exception ex)
+            {
+                error.SetErro(Error.tipoRetorno.erro, "", ex.Message);
                 return error;
             } finally
             {
